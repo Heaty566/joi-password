@@ -1,6 +1,6 @@
 {
       "name": "joi-password",
-      "version": "1.4.3",
+      "version": "1.4.4",
       "description": "A Joi extension that help to validate a complex password",
       "main": "lib/index.js",
       "types": "lib/index.d.ts",
