@@ -15,7 +15,7 @@
       ],
       "scripts": {
             "build": "tsc",
-            "prepare": "npm run build",
+            "prepare": "rm -r lib && npm run build",
             "start:dev": "NODE_ENV=development  nodemon --exec ts-node index.ts",
             "test": "jest",
             "test:watch": "jest --watchAll --runInBand --detectOpenHandles",
