@@ -25,6 +25,11 @@ export interface JoiStringExtend extends Joi.StringSchema {
        * @param min - the minimum number of numeric characters required.
        */
       minOfNumeric(min: number): this;
+
+      /**
+       * @description Verifies that a schema has no white spaces, Please do not use trim() function to make this function work perfectly.
+       */
+      noWhiteSpaces(): this;
 }
 export interface JoiPasswordComplexityExtend extends Root {
       string(): JoiStringExtend;
@@ -39,6 +44,7 @@ export const JoiPasswordComplexity: JoiPasswordComplexityExtend = Joi.extend((jo
                   "password.minOfSpecialCharacters": "should contain at least {#min} special character",
                   "password.minOfLowercase": "should contain at least {#min} lowercase character",
                   "password.minOfNumeric": "should contain at least {#min} numeric character",
+                  "password.noWhiteSpaces": "should not contain white spaces",
             },
             rules: {
                   minOfUppercase: {
@@ -78,13 +84,14 @@ export const JoiPasswordComplexity: JoiPasswordComplexityExtend = Joi.extend((jo
                               },
                         ],
                         validate: (value: string, helpers: Joi.CustomHelpers, { min = 0 }: any) => {
-                              const numUpper = (value.match(/[a-z]/g) || []).length;
+                              const numLower = (value.match(/[a-z]/g) || []).length;
 
-                              if (numUpper < min) return helpers.error("password.minOfLowercase", { min });
+                              if (numLower < min) return helpers.error("password.minOfLowercase", { min });
 
                               return value;
                         },
                   },
+
                   minOfSpecialCharacters: {
                         method(min: any) {
                               return this.$_addRule({
@@ -100,9 +107,9 @@ export const JoiPasswordComplexity: JoiPasswordComplexityExtend = Joi.extend((jo
                               },
                         ],
                         validate: (value: string, helpers: Joi.CustomHelpers, { min = 0 }: any) => {
-                              const numUpper = value.length - (value.match(/[a-zA-Z0-9]/g) || []).length;
+                              const numSpecial = value.length - (value.match(/[a-zA-Z0-9]/g) || []).length;
 
-                              if (numUpper < min) return helpers.error("password.minOfSpecialCharacters", { min });
+                              if (numSpecial < min) return helpers.error("password.minOfSpecialCharacters", { min });
 
                               return value;
                         },
@@ -122,9 +129,17 @@ export const JoiPasswordComplexity: JoiPasswordComplexityExtend = Joi.extend((jo
                               },
                         ],
                         validate: (value: string, helpers: Joi.CustomHelpers, { min = 0 }: any) => {
-                              const numUpper = (value.match(/[0-9]/g) || []).length;
+                              const numNumeric = (value.match(/[0-9]/g) || []).length;
 
-                              if (numUpper < min) return helpers.error("password.minOfNumeric", { min });
+                              if (numNumeric < min) return helpers.error("password.minOfNumeric", { min });
+
+                              return value;
+                        },
+                  },
+                  noWhiteSpaces: {
+                        validate: (value: string, helpers: Joi.CustomHelpers) => {
+                              const numSpace = (value.match(/ /g) || []).length;
+                              if (numSpace !== 0) return helpers.error("password.noWhiteSpaces");
 
                               return value;
                         },
