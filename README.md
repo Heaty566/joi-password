@@ -20,18 +20,18 @@ yarn add joi-password
 - minOfLowercase(min: number): Specifies the minimum number of lowercase string characters.
 - minOfSpecialCharacters(min: number): Specifies the minimum number of special string characters.
 - minOfNumeric(min: number): Specifies the minimum number of numeric characters.
-- noWhiteSpaces(): Verifies that a schema has no white spaces, Please do not combine trim() function to make this function work perfectly.
+- noWhiteSpaces(): Verifies that a schema has no white spaces, Please do not combine trim() function to make this function works perfectly.
 
 ## Example
 
 ```javascript
 import Joi from "joi";
-import { JoiPasswordComplexity } from "joi-password";
+import { JoiPassword } from "joi-password";
 
 const schema = (input: any) =>
       Joi.object({
             username: Joi.string().min(5).max(10).required(),
-            password: JoiPasswordComplexity.string()
+            password: JoiPassword.string()
                   .minOfSpecialCharacters(2)
                   .minOfLowercase(2)
                   .minOfUppercase(2)
@@ -48,9 +48,12 @@ console.log(error); // undefined
 ## Custom error message
 
 ```javascript
+import Joi from "joi";
+import { JoiPassword } from "joi-password";
+
 const schema = (input: any) =>
       Joi.object({
-            data: JoiPasswordComplexity.string()
+            data: JoiPassword.string()
                   .minOfSpecialCharacters(2)
                   .minOfLowercase(3)
                   .minOfUppercase(4)

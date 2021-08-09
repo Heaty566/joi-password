@@ -1,5 +1,4 @@
 import * as Joi from "joi";
-import { Root } from "joi";
 
 export interface JoiStringExtend extends Joi.StringSchema {
       /**
@@ -27,21 +26,22 @@ export interface JoiStringExtend extends Joi.StringSchema {
       minOfNumeric(min: number): this;
 
       /**
-       * @description Verifies that a schema has no white spaces, Please do not use trim() function to make this function work perfectly.
+       * @description Verifies that a schema has no white spaces, Please do not use trim() function to make this function works perfectly.
        */
       noWhiteSpaces(): this;
 }
-export interface JoiPasswordComplexityExtend extends Root {
+export interface JoiPasswordExtend extends Joi.Root {
       string(): JoiStringExtend;
 }
 
-export const JoiPasswordComplexity: JoiPasswordComplexityExtend = Joi.extend((joi) => {
+export const JoiPassword: JoiPasswordExtend = Joi.extend((joi) => {
       return {
             type: "string",
             base: joi.string(),
             messages: {
                   "password.minOfUppercase": "should contain at least {#min} uppercase character",
-                  "password.minOfSpecialCharacters": "should contain at least {#min} special character",
+                  "password.minOfSpecialCharacters":
+                        "should contain at least {#min} special character",
                   "password.minOfLowercase": "should contain at least {#min} lowercase character",
                   "password.minOfNumeric": "should contain at least {#min} numeric character",
                   "password.noWhiteSpaces": "should not contain white spaces",
@@ -64,7 +64,8 @@ export const JoiPasswordComplexity: JoiPasswordComplexityExtend = Joi.extend((jo
                         validate: (value: string, helpers: Joi.CustomHelpers, { min = 0 }: any) => {
                               const numUpper = (value.match(/[A-Z]/g) || []).length;
 
-                              if (numUpper < min) return helpers.error("password.minOfUppercase", { min });
+                              if (numUpper < min)
+                                    return helpers.error("password.minOfUppercase", { min });
 
                               return value;
                         },
@@ -86,7 +87,8 @@ export const JoiPasswordComplexity: JoiPasswordComplexityExtend = Joi.extend((jo
                         validate: (value: string, helpers: Joi.CustomHelpers, { min = 0 }: any) => {
                               const numLower = (value.match(/[a-z]/g) || []).length;
 
-                              if (numLower < min) return helpers.error("password.minOfLowercase", { min });
+                              if (numLower < min)
+                                    return helpers.error("password.minOfLowercase", { min });
 
                               return value;
                         },
@@ -107,9 +109,13 @@ export const JoiPasswordComplexity: JoiPasswordComplexityExtend = Joi.extend((jo
                               },
                         ],
                         validate: (value: string, helpers: Joi.CustomHelpers, { min = 0 }: any) => {
-                              const numSpecial = value.length - (value.match(/[a-zA-Z0-9]/g) || []).length;
+                              const numSpecial =
+                                    value.length - (value.match(/[a-zA-Z0-9]/g) || []).length;
 
-                              if (numSpecial < min) return helpers.error("password.minOfSpecialCharacters", { min });
+                              if (numSpecial < min)
+                                    return helpers.error("password.minOfSpecialCharacters", {
+                                          min,
+                                    });
 
                               return value;
                         },
@@ -131,7 +137,8 @@ export const JoiPasswordComplexity: JoiPasswordComplexityExtend = Joi.extend((jo
                         validate: (value: string, helpers: Joi.CustomHelpers, { min = 0 }: any) => {
                               const numNumeric = (value.match(/[0-9]/g) || []).length;
 
-                              if (numNumeric < min) return helpers.error("password.minOfNumeric", { min });
+                              if (numNumeric < min)
+                                    return helpers.error("password.minOfNumeric", { min });
 
                               return value;
                         },

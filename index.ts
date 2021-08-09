@@ -1,4 +1,4 @@
-import { JoiPasswordComplexity } from "./password";
+import { JoiPassword } from "./src/password";
 
-export { JoiPasswordComplexity };
-export default JoiPasswordComplexity;
+export { JoiPassword };
+export default JoiPassword;
