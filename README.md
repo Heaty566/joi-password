@@ -1,8 +1,9 @@
 ![npm](https://img.shields.io/npm/v/joi-password)
 ![npm](https://img.shields.io/npm/dw/joi-password)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/joi-password)
-
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/50929546cb4b4c208a5a19a8ba14102b)](https://app.codacy.com/gh/Heaty566/joi-password?utm_source=github.com&utm_medium=referral&utm_content=Heaty566/joi-password&utm_campaign=Badge_Grade_Settings)
+
+
 [![NPM](https://nodei.co/npm/joi-password.png)](https://nodei.co/npm/joi-password/)
 
 # joi-password
