@@ -1,3 +1,11 @@
+![npm](https://img.shields.io/npm/v/joi-password)
+![npm](https://img.shields.io/npm/dw/joi-password)
+![npm bundle size](https://img.shields.io/bundlephobia/min/joi-password)
+
+[![NPM](https://nodei.co/npm/joi-password.png)](https://nodei.co/npm/joi-password/)
+
+# joi-password
+
 A Joi extension that help to validate a complex password
 
 ## Installation
