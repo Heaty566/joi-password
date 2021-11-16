@@ -1,4 +1,4 @@
-import { JoiPassword } from "../src/password";
+import { JoiPassword } from "..";
 import Joi from "joi";
 
 describe("JoiPasswordComplexity", () => {
