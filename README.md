@@ -75,22 +75,23 @@ const schema = (input: any) =>
                   .minOfNumeric(5)
                   .noWhiteSpaces()
                   .messages({
-                        "password.minOfUppercase": "my custom error message min {#min}",
-                        "password.minOfLowercase": "my custom error message min {#min}",
-                        "password.minOfSpecialCharacters": "my custom error message min {#min}",
-                        "password.minOfNumeric": "my custom error message min {#min}",
-                        "password.noWhiteSpaces": "my custom error message",
+                        "password.minOfUppercase": "{#label} my custom error message min {#min}",
+                        "password.minOfLowercase": "{#label} my custom error message min {#min}",
+                        "password.minOfSpecialCharacters":
+                              "{#label} my custom error message min {#min}",
+                        "password.minOfNumeric": "{#label} my custom error message min {#min}",
+                        "password.noWhiteSpaces": "{#label} my custom error message",
                   }),
       }).validate(input, { abortEarly: false });
 
 const { error } = schema({ data: "aA@0 " });
 
 console.log(error);
-// my custom error message min 2
-// my custom error message min 3
-// my custom error message min 4
-// my custom error message min 5
-// my custom error message
+// 'data' my custom error message min 2
+// 'data' my custom error message min 3
+// 'data' my custom error message min 4
+// 'data' my custom error message min 5
+// 'data' my custom error message
 ```
 
 ## @hapi/joi supports
