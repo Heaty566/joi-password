@@ -14,8 +14,8 @@
         "password validator"
     ],
     "scripts": {
-        "build": "tsc",
-        "publish": "rm -r lib  &&  npm run build && npm publish",
+        "build": "rm -r lib  && tsc",
+        "publish": " yarn run build && yarn run build:cdn && npm publish",
         "start:dev": "NODE_ENV=development  nodemon --exec ts-node index.ts",
         "test": "jest",
         "test:cov": "jest --coverage --runInBand --detectOpenHandles",
