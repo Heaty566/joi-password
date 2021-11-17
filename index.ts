@@ -34,7 +34,7 @@ export interface JoiPasswordExtend extends joi.Root {
       string(): JoiStringExtend;
 }
 
-export const JoiPassword: JoiPasswordExtend = joi.extend((joi) => {
+export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
       return {
             type: "string",
             base: joi.string(),
@@ -158,4 +158,4 @@ export const JoiPassword: JoiPasswordExtend = joi.extend((joi) => {
       };
 });
 
-export default JoiPassword;
+export default joiPassword;
