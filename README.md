@@ -26,7 +26,7 @@ yarn add joi joi-password
 
 ```html
 <script src="https://unpkg.com/joi@17.4.2/dist/joi-browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@2.0.1/cdn/joi-password.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@2.0.3/cdn/joi-password.min.js"></script>
 ```
 
 ## Joi extend function
@@ -43,7 +43,7 @@ yarn add joi joi-password
 const joi = require("joi");
 const joiPassword = require("joi-password");
 
-const schema = (input: any) =>
+const schema = (input) =>
     joi
         .object({
             username: joi.string().min(5).max(10).required(),
@@ -69,7 +69,7 @@ console.log(error); // undefined
 const joi = require("joi");
 const joiPassword = require("joi-password");
 
-const schema = (input: any) =>
+const schema = (input) =>
     joi
         .object({
             data: joiPassword
