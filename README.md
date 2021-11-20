@@ -39,7 +39,9 @@ yarn add joi joi-password
 
 ## Usage
 
-```javascript
+```js
+// example/usage.js
+
 const joi = require("joi");
 const joiPassword = require("joi-password");
 
@@ -65,7 +67,9 @@ console.log(error); // undefined
 
 ## Custom error message
 
-```javascript
+```js
+// example/custom.js
+
 const joi = require("joi");
 const joiPassword = require("joi-password");
 
@@ -97,6 +101,7 @@ console.log(error);
 // 'data' my custom error message min 4
 // 'data' my custom error message min 5
 // 'data' my custom error message
+
 ```
 
 ## @hapi/joi supports

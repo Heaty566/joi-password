@@ -3,4 +3,5 @@ tsconfig.json
 tslint.json
 .prettierrc
 ./test/*
+./exmample/*
 ./coverage/*
