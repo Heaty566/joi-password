@@ -26,7 +26,7 @@ yarn add joi joi-password
 
 ```html
 <script src="https://unpkg.com/joi@17.4.2/dist/joi-browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@2.0.3/cdn/joi-password.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@2.1.0/cdn/joi-password.min.js"></script>
 ```
 
 ## Joi extend function
@@ -36,19 +36,20 @@ yarn add joi joi-password
 -   minOfSpecialCharacters(min: number): Specifies the minimum number of special string characters.
 -   minOfNumeric(min: number): Specifies the minimum number of numeric characters.
 -   noWhiteSpaces(): Verifies that a schema has no white spaces, Please do not combine trim() function to make this function works perfectly.
+-   notIncludeField(): Verifies that a schema does not include the value of other fields. Ex: "password" should not include "name"
 
 ## Usage
 
 ```js
 // example/usage.js
 
-const joi = require("joi");
-const joiPassword = require("joi-password");
+const joi = require('joi');
+const joiPassword = require('joi-password');
 
 const schema = (input) =>
     joi
         .object({
-            username: joi.string().min(5).max(10).required(),
+            name: joi.string().min(5).max(10).required(),
             password: joiPassword
                 .string()
                 .minOfSpecialCharacters(2)
@@ -56,11 +57,12 @@ const schema = (input) =>
                 .minOfUppercase(2)
                 .minOfNumeric(2)
                 .noWhiteSpaces()
+                .notIncludeField(['name'])
                 .required(),
         })
         .validate(input);
 
-const { error, value } = schema({ username: "hello", password: "aaAA@@00" });
+const { error } = schema({ name: 'hello', password: 'aaAA@@00' });
 
 console.log(error); // undefined
 ```
@@ -70,38 +72,41 @@ console.log(error); // undefined
 ```js
 // example/custom.js
 
-const joi = require("joi");
-const joiPassword = require("joi-password");
+const joi = require('joi');
+const joiPassword = require('joi-password');
 
 const schema = (input) =>
     joi
         .object({
-            data: joiPassword
+            name: joi.string(),
+            password: joiPassword
                 .string()
                 .minOfSpecialCharacters(2)
                 .minOfLowercase(3)
                 .minOfUppercase(4)
                 .minOfNumeric(5)
                 .noWhiteSpaces()
+                .notIncludeField(['name'])
                 .messages({
-                    "password.minOfUppercase": "{#label} my custom error message min {#min}",
-                    "password.minOfLowercase": "{#label} my custom error message min {#min}",
-                    "password.minOfSpecialCharacters": "{#label} my custom error message min {#min}",
-                    "password.minOfNumeric": "{#label} my custom error message min {#min}",
-                    "password.noWhiteSpaces": "{#label} my custom error message",
+                    'password.minOfUppercase': '{#label} my custom error message min {#min}',
+                    'password.minOfLowercase': '{#label} my custom error message min {#min}',
+                    'password.minOfSpecialCharacters': '{#label} my custom error message min {#min}',
+                    'password.minOfNumeric': '{#label} my custom error message min {#min}',
+                    'password.noWhiteSpaces': '{#label} my custom error message',
+                    'password.notIncludeField': '{#label} my custom error message {#field}',
                 }),
         })
         .validate(input, { abortEarly: false });
 
-const { error } = schema({ data: "aA@0 " });
+const { error } = schema({ name: 'a', password: 'a ' });
 
 console.log(error);
-// 'data' my custom error message min 2
-// 'data' my custom error message min 3
-// 'data' my custom error message min 4
-// 'data' my custom error message min 5
-// 'data' my custom error message
-
+// "password" my custom error message min 2
+// "password" my custom error message min 3
+// "password" my custom error message min 4
+// "password" my custom error message min 5
+// "password" my custom error message
+// "password" my custom error message name
 ```
 
 ## @hapi/joi supports
