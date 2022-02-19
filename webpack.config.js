@@ -1,19 +1,19 @@
-const { merge } = require("webpack-merge");
-const nodeExternals = require("webpack-node-externals");
+const { merge } = require('webpack-merge');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = merge(
       {},
       {
-            mode: "production",
+            mode: 'production',
             entry: {
-                  "joi-password": ["./lib/index.js"],
+                  'joi-password': ['./lib/index.js'],
             },
             output: {
-                  path: __dirname + "/cdn",
-                  filename: "[name].min.js",
-                  libraryTarget: "umd",
+                  path: __dirname + '/cdn',
+                  filename: '[name].min.js',
+                  libraryTarget: 'umd',
             },
-            target: "web",
+            target: 'web',
             externals: [nodeExternals()],
             module: {
                   rules: [
@@ -22,7 +22,7 @@ module.exports = merge(
                               exclude: /(node_modules|bower_components)/,
                               use: [
                                     {
-                                          loader: "babel-loader",
+                                          loader: 'babel-loader',
                                     },
                               ],
                         },
@@ -31,12 +31,12 @@ module.exports = merge(
                               exclude: /(node_modules|bower_components)/,
                               use: [
                                     {
-                                          loader: "ts-loader",
+                                          loader: 'ts-loader',
                                           options: {
                                                 compilerOptions: {
                                                       declaration: false,
-                                                      target: "es5",
-                                                      module: "commonjs",
+                                                      target: 'es5',
+                                                      module: 'commonjs',
                                                 },
                                                 transpileOnly: true,
                                           },
@@ -46,7 +46,7 @@ module.exports = merge(
                   ],
             },
             externals: {
-                  joi: "joi",
+                  joi: 'joi',
             },
-      }
+      },
 );

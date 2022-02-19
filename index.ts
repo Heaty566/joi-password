@@ -26,12 +26,16 @@ export interface JoiStringExtend extends joi.StringSchema {
       minOfNumeric(min: number): this;
 
       /**
-       * @description Verifies that a schema has no white spaces, Please do not use trim() function to make this function works perfectly.
+       * @description Verifies a field has no white spaces; please do not use trim() function to make this function works perfectly.
        */
       noWhiteSpaces(): this;
-
-      notIncludeWith(value: any): this;
 }
+// /**
+//  * @description Verifies a field does not include the value of other fields.
+//  * @param fields - a array of name of other fields.
+//  * @example 'Password should not include name or username'
+//  */
+// notIncludeWith(fields: string[]): this;
 export interface JoiPasswordExtend extends joi.Root {
       string(): JoiStringExtend;
 }
@@ -46,7 +50,7 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                   'password.minOfLowercase': '{#label} should contain at least {#min} lowercase character',
                   'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
                   'password.noWhiteSpaces': '{#label} should not contain white spaces',
-                  'password.notIncludeWith': '{#label} should not include {#field}',
+                  // 'password.notIncludeWith': '{#label} should not include {#field}',
             },
             rules: {
                   minOfUppercase: {
@@ -64,9 +68,8 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                               },
                         ],
                         validate: (value: string, helpers: joi.CustomHelpers, { min = 0 }: any) => {
-                              const numUpper = (value.match(/[A-Z]/g) || []).length;
-
-                              if (numUpper < min) return helpers.error('password.minOfUppercase', { min });
+                              if (!new RegExp(`(?=(.*[A-Z]){${min}})`).test(value))
+                                    return helpers.error('password.minOfUppercase', { min });
 
                               return value;
                         },
@@ -86,9 +89,8 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                               },
                         ],
                         validate: (value: string, helpers: joi.CustomHelpers, { min = 0 }: any) => {
-                              const numLower = (value.match(/[a-z]/g) || []).length;
-
-                              if (numLower < min) return helpers.error('password.minOfLowercase', { min });
+                              if (!new RegExp(`(?=(.*[a-z]){${min}})`).test(value))
+                                    return helpers.error('password.minOfLowercase', { min });
 
                               return value;
                         },
@@ -110,7 +112,6 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                         ],
                         validate: (value: string, helpers: joi.CustomHelpers, { min = 0 }: any) => {
                               const numSpecial = value.length - (value.match(/[a-zA-Z0-9]/g) || []).length;
-
                               if (numSpecial < min)
                                     return helpers.error('password.minOfSpecialCharacters', {
                                           min,
@@ -134,57 +135,59 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                               },
                         ],
                         validate: (value: string, helpers: joi.CustomHelpers, { min = 0 }: any) => {
-                              const numNumeric = (value.match(/[0-9]/g) || []).length;
-
-                              if (numNumeric < min) return helpers.error('password.minOfNumeric', { min });
+                              if (!new RegExp(`(?=(.*[0-9]){${min}})`, 'g').test(value))
+                                    return helpers.error('password.minOfNumeric', { min });
 
                               return value;
                         },
                   },
                   noWhiteSpaces: {
                         validate: (value: string, helpers: joi.CustomHelpers) => {
-                              const numSpace = (value.match(/ /g) || []).length;
-                              if (numSpace !== 0) return helpers.error('password.noWhiteSpaces');
+                              if (new RegExp(` `, 'g').test(value)) return helpers.error('password.noWhiteSpaces');
 
                               return value;
                         },
                   },
-                  notIncludeWith: {
-                        method(fields: string[]) {
-                              return this.$_addRule({
-                                    name: 'notIncludeWith',
-                                    args: { fields },
-                              });
-                        },
-                        args: [
-                              {
-                                    name: 'fields',
-                                    assert: (value) => value && Array.isArray(value),
-                                    message: 'must be an array of string',
-                              },
-                        ],
-                        validate: (
-                              value: string,
-                              helpers: joi.CustomHelpers,
-                              { fields = [] }: { fields: string[] },
-                        ) => {
-                              const objectValue: Record<string, string> = helpers.state?.ancestors[0];
-                              if (objectValue) {
-                                    const isIncludes = fields.filter(
-                                          (item) =>
-                                                Object.keys(objectValue).includes(item) &&
-                                                objectValue[item].split(' ').some((str) => str.includes(value)),
-                                    );
+                  // notIncludeWith: {
+                  //       method(fields: string[]) {
+                  //             return this.$_addRule({
+                  //                   name: 'notIncludeWith',
+                  //                   args: { fields },
+                  //             });
+                  //       },
+                  //       args: [
+                  //             {
+                  //                   name: 'fields',
+                  //                   assert: (value) => value && Array.isArray(value),
+                  //                   message: 'must be an array of string',
+                  //             },
+                  //       ],
+                  //       validate: (
+                  //             value: string,
+                  //             helpers: joi.CustomHelpers,
+                  //             { fields = [] }: { fields: string[] },
+                  //       ) => {
+                  //             const objectValue: Record<string, string> = helpers.state?.ancestors[0];
 
-                                    if (Boolean(isIncludes.length)) {
-                                          return helpers.error('password.notIncludeWith', { field: isIncludes[0] });
-                                    }
-                              }
-                              return value;
-                        },
-                  },
+                  //             if (objectValue) {
+                  //                   const isIncludes = fields.filter((item) => {
+                  //                         return (
+                  //                               Object.keys(objectValue).includes(item) &&
+                  //                               Boolean(
+                  //                                     objectValue[item]
+                  //                                           .split(' ')
+                  //                                           .filter((item2) => item2.includes(value)).length,
+                  //                               )
+                  //                         );
+                  //                   });
+
+                  //                   if (Boolean(isIncludes.length)) {
+                  //                         return helpers.error('password.notIncludeWith', { field: isIncludes[0] });
+                  //                   }
+                  //             }
+                  //             return value;
+                  //       },
+                  // },
             },
       };
 });
-
-export default joiPassword;

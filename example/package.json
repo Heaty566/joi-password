@@ -1,0 +1,9 @@
+{
+      "name": "joi-password-demo",
+      "version": "1.0.0",
+      "main": "index.js",
+      "license": "MIT",
+      "dependencies": {
+            "joi": "^17.6.0"
+      }
+}
