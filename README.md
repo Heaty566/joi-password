@@ -8,18 +8,22 @@
 
 A Joi extension that help to validate a complex password
 
+## Requirement
+
+Joi version: 17.6.0
+
 ## Installation
 
 ### Npm
 
 ```sh
-npm install joi joi-password
+npm install joi@17.6.0 joi-password
 ```
 
 ### Yarn
 
 ```sh
-yarn add joi joi-password
+yarn add joi@17.6.0 joi-password
 ```
 
 ### CDN
