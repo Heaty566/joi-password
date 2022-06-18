@@ -30,13 +30,13 @@ export interface JoiStringExtend extends joi.StringSchema {
        * @description Verifies a field has no white spaces; please do not use trim() function to make this function works perfectly.
        */
       noWhiteSpaces(): this;
+      // /**
+      //  * @description Verifies a field does not include the value of other fields.
+      //  * @param fields - a array of name of other fields.
+      //  * @example 'Password should not include name or username'
+      //  */
+      // notIncludeWith(fields: string[]): this;
 }
-// /**
-//  * @description Verifies a field does not include the value of other fields.
-//  * @param fields - a array of name of other fields.
-//  * @example 'Password should not include name or username'
-//  */
-// notIncludeWith(fields: string[]): this;
 export interface JoiPasswordExtend extends joi.Root {
       string(): JoiStringExtend;
 }
