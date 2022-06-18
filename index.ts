@@ -1,3 +1,4 @@
+//@ts-nocheck
 import * as joi from 'joi';
 
 export interface JoiStringExtend extends joi.StringSchema {
@@ -39,8 +40,7 @@ export interface JoiStringExtend extends joi.StringSchema {
 export interface JoiPasswordExtend extends joi.Root {
       string(): JoiStringExtend;
 }
-
-export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
+export function joiPasswordExtendCore(joi: any) {
       return {
             type: 'string',
             base: joi.string(),
@@ -63,7 +63,7 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                         args: [
                               {
                                     name: 'min',
-                                    assert: (value) => typeof value === 'number' && !isNaN(value),
+                                    assert: (value: any) => typeof value === 'number' && !isNaN(value),
                                     message: 'must be a number',
                               },
                         ],
@@ -84,7 +84,7 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                         args: [
                               {
                                     name: 'min',
-                                    assert: (value) => typeof value === 'number' && !isNaN(value),
+                                    assert: (value: any) => typeof value === 'number' && !isNaN(value),
                                     message: 'must be a number',
                               },
                         ],
@@ -106,7 +106,7 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                         args: [
                               {
                                     name: 'min',
-                                    assert: (value) => typeof value === 'number' && !isNaN(value),
+                                    assert: (value: any) => typeof value === 'number' && !isNaN(value),
                                     message: 'must be a number',
                               },
                         ],
@@ -130,7 +130,7 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                         args: [
                               {
                                     name: 'min',
-                                    assert: (value) => typeof value === 'number' && !isNaN(value),
+                                    assert: (value: any) => typeof value === 'number' && !isNaN(value),
                                     message: 'must be a number',
                               },
                         ],
@@ -148,46 +148,8 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                               return value;
                         },
                   },
-                  // notIncludeWith: {
-                  //       method(fields: string[]) {
-                  //             return this.$_addRule({
-                  //                   name: 'notIncludeWith',
-                  //                   args: { fields },
-                  //             });
-                  //       },
-                  //       args: [
-                  //             {
-                  //                   name: 'fields',
-                  //                   assert: (value) => value && Array.isArray(value),
-                  //                   message: 'must be an array of string',
-                  //             },
-                  //       ],
-                  //       validate: (
-                  //             value: string,
-                  //             helpers: joi.CustomHelpers,
-                  //             { fields = [] }: { fields: string[] },
-                  //       ) => {
-                  //             const objectValue: Record<string, string> = helpers.state?.ancestors[0];
-
-                  //             if (objectValue) {
-                  //                   const isIncludes = fields.filter((item) => {
-                  //                         return (
-                  //                               Object.keys(objectValue).includes(item) &&
-                  //                               Boolean(
-                  //                                     objectValue[item]
-                  //                                           .split(' ')
-                  //                                           .filter((item2) => item2.includes(value)).length,
-                  //                               )
-                  //                         );
-                  //                   });
-
-                  //                   if (Boolean(isIncludes.length)) {
-                  //                         return helpers.error('password.notIncludeWith', { field: isIncludes[0] });
-                  //                   }
-                  //             }
-                  //             return value;
-                  //       },
-                  // },
             },
       };
-});
+}
+
+export const joiPassword: JoiPasswordExtend = joi.extend(joiPasswordExtendCore);
