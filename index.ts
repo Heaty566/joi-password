@@ -1,4 +1,3 @@
-//@ts-nocheck
 import * as joi from 'joi';
 
 export interface JoiStringExtend extends joi.StringSchema {
@@ -55,7 +54,7 @@ export function joiPasswordExtendCore(joi: any) {
             rules: {
                   minOfUppercase: {
                         method(min: any) {
-                              return this.$_addRule({
+                              return (this as any).$_addRule({
                                     name: 'minOfUppercase',
                                     args: { min },
                               });
@@ -76,7 +75,7 @@ export function joiPasswordExtendCore(joi: any) {
                   },
                   minOfLowercase: {
                         method(min: any) {
-                              return this.$_addRule({
+                              return (this as any).$_addRule({
                                     name: 'minOfLowercase',
                                     args: { min },
                               });
@@ -98,7 +97,7 @@ export function joiPasswordExtendCore(joi: any) {
 
                   minOfSpecialCharacters: {
                         method(min: any) {
-                              return this.$_addRule({
+                              return (this as any).$_addRule({
                                     name: 'minOfSpecialCharacters',
                                     args: { min },
                               });
@@ -122,7 +121,7 @@ export function joiPasswordExtendCore(joi: any) {
                   },
                   minOfNumeric: {
                         method(min: any) {
-                              return this.$_addRule({
+                              return (this as any).$_addRule({
                                     name: 'minOfNumeric',
                                     args: { min },
                               });
