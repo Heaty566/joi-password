@@ -40,6 +40,7 @@ export interface JoiStringExtend extends joi.StringSchema {
 export interface JoiPasswordExtend extends joi.Root {
       string(): JoiStringExtend;
 }
+
 export function joiPasswordExtendCore(joi: any) {
       return {
             type: 'string',
@@ -151,5 +152,3 @@ export function joiPasswordExtendCore(joi: any) {
             },
       };
 }
-
-export const joiPassword: JoiPasswordExtend = joi.extend(joiPasswordExtendCore);

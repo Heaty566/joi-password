@@ -1,5 +1,7 @@
-import { joiPassword, joiPasswordExtendCore } from '../index';
+import { joiPasswordExtendCore } from '../index';
 import joi from 'joi';
+
+const joiPassword = joi.extend(joiPasswordExtendCore);
 
 describe('JoiPasswordComplexity', () => {
       describe('Pass', () => {
