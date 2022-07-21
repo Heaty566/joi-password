@@ -1,5 +1,6 @@
 const joi = require('joi');
-const { joiPassword } = require('joi-password');
+const { joiPasswordExtendCore } = require('joi-password');
+const joiPassword = joi.extend(joiPasswordExtendCore);
 
 const schema = (input) =>
       joi

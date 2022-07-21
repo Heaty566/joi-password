@@ -10,27 +10,27 @@ A Joi extension that help to validate a complex password
 
 ## Requirement
 
-Joi version: 17.6.0
+Joi version: 17.x.x
 
 ## Installation
 
 ### Npm
 
 ```sh
-npm install joi@17.6.0 joi-password
+npm install joi joi-password
 ```
 
 ### Yarn
 
 ```sh
-yarn add joi@17.6.0 joi-password
+yarn add joi joi-password
 ```
 
 ### CDN
 
 ```html
 <script src="https://unpkg.com/joi@17.4.2/dist/joi-browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@3.0.0/cdn/joi-password.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@4.0.0/cdn/joi-password.min.js"></script>
 ```
 
 ## Joi extend function
@@ -47,7 +47,8 @@ yarn add joi@17.6.0 joi-password
 // example/usage.js
 
 const joi = require('joi');
-const { joiPassword } = require('joi-password');
+const { joiPasswordExtendCore } = require('joi-password');
+const joiPassword = joi.extend(joiPasswordExtendCore);
 
 const schema = (input) =>
       joi
@@ -74,7 +75,8 @@ console.log(error); // undefined
 // example/custom.js
 
 const joi = require('joi');
-const { joiPassword } = require('joi-password');
+const { joiPasswordExtendCore } = require('joi-password');
+const joiPassword = joi.extend(joiPasswordExtendCore);
 
 const schema = (input) =>
       joi
