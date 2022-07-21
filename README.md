@@ -10,7 +10,7 @@ A Joi extension that help to validate a complex password
 
 ## Requirement
 
-Joi version: > 17
+Joi version: 17.x.x
 
 ## Installation
 
@@ -30,7 +30,7 @@ yarn add joi joi-password
 
 ```html
 <script src="https://unpkg.com/joi@17.4.2/dist/joi-browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@3.1.0/cdn/joi-password.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@4.0.0/cdn/joi-password.min.js"></script>
 ```
 
 ## Joi extend function
@@ -67,7 +67,6 @@ const schema = (input) =>
 
 const { error } = schema({ username: 'hello', password: 'AAaa@@00' });
 console.log(error); // undefined
-
 ```
 
 ## Custom error message
@@ -91,16 +90,17 @@ const schema = (input) =>
                         .minOfNumeric(6)
                         .noWhiteSpaces()
                         .messages({
-                            'password.minOfUppercase': '{#label} should contain at least {#min} uppercase character',
-                            'password.minOfSpecialCharacters': '{#label} should contain at least {#min} special character',
-                            'password.minOfLowercase': '{#label} should contain at least {#min} lowercase character',
-                            'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
-                            'password.noWhiteSpaces': '{#label} should not contain white spaces',
+                              'password.minOfUppercase': '{#label} should contain at least {#min} uppercase character',
+                              'password.minOfSpecialCharacters':
+                                    '{#label} should contain at least {#min} special character',
+                              'password.minOfLowercase': '{#label} should contain at least {#min} lowercase character',
+                              'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
+                              'password.noWhiteSpaces': '{#label} should not contain white spaces',
                         }),
             })
             .validate(input, { abortEarly: false });
 
-const { error } = schema({ username: 'aA', password:  'aA@0 ' });
+const { error } = schema({ username: 'aA', password: 'aA@0 ' });
 
 console.log(error);
 // 'password' should contain at least 3 special character
@@ -108,8 +108,6 @@ console.log(error);
 // 'password' should contain at least 5 uppercase character
 // 'password'  should contain at least 6 numeric character
 // 'password' should not contain white spaces
-
-
 ```
 
 ## @hapi/joi supports
