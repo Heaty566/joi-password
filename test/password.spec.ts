@@ -1,7 +1,7 @@
-import { joiPasswordExtendCore } from '../index';
+import { JoiPasswordExtend, joiPasswordExtendCore } from '../index';
 import joi from 'joi';
 
-const joiPassword = joi.extend(joiPasswordExtendCore);
+const joiPassword: JoiPasswordExtend = joi.extend(joiPasswordExtendCore);
 
 describe('JoiPasswordComplexity', () => {
       describe('Pass', () => {
@@ -14,7 +14,8 @@ describe('JoiPasswordComplexity', () => {
                                     .minOfLowercase(2)
                                     .minOfUppercase(2)
                                     .minOfNumeric(2)
-                                    .noWhiteSpaces(),
+                                    .noWhiteSpaces()
+                                    .onlyLatinCharacters(),
                         })
                         .validate(input);
             it('Pass all check character', () => {
@@ -23,7 +24,7 @@ describe('JoiPasswordComplexity', () => {
             });
             it('Pass all check character', () => {
                   const { error } = schema({
-                        data: 'aaAaaaaaaaaaaaaaaaA@@~```````````````$$$@csacsac00',
+                        data: 'aaAaaaaaaaaaaaaaaaA@@$$$@csacsac00',
                   });
 
                   expect(error).toBeUndefined();
@@ -256,6 +257,52 @@ describe('JoiPasswordComplexity core', () => {
 
                   expect(error).toBeDefined();
                   expect(error?.details[0].type).toBe('password.noWhiteSpaces');
+            });
+      });
+
+      describe('onlyLatinCharacters', () => {
+            const schema = (value: string) =>
+                  joi.extend(joiPasswordExtendCore).string().onlyLatinCharacters().validate(value);
+
+            it('Pass', () => {
+                  const { error } = schema('A@0aA@0#');
+                  expect(error).toBeUndefined();
+            });
+
+            it('Failed check japanese characters', () => {
+                  const { error } = schema('こんにちは');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check chinese characters', () => {
+                  const { error } = schema('你好');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check korean characters', () => {
+                  const { error } = schema('안녕하세요');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check russian characters', () => {
+                  const { error } = schema('Привет');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check vietnamese characters', () => {
+                  const { error } = schema('Xin chào');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check thai characters', () => {
+                  const { error } = schema('สวัสดี');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check arabic characters', () => {
+                  const { error } = schema('مرحبا');
+
+                  expect(error).toBeDefined();
             });
       });
 });
