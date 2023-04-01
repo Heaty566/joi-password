@@ -26,7 +26,7 @@ const schema = (input) =>
             })
             .validate(input, { abortEarly: false });
 
-const { error } = schema({ username: 'aA', password: 'aA@0は' });
+const { error } = schema({ username: 'aA', password: 'aA@0は ' });
 
 console.log(error);
 // 'password' should contain at least 3 special character
