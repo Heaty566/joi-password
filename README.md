@@ -113,12 +113,12 @@ console.log(error);
 // 'password'  should contain at least 6 numeric character
 // 'password' should not contain white spaces
 // 'password' should contain only latin characters
-
 ```
 
 ## @hapi/joi supports
 
 https://www.npmjs.com/package/hapi-joi-password
+hapi-joi-password package is archived and no longer maintained, please use joi and joi-password instead.
 
 ## License
 
