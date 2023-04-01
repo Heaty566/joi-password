@@ -30,7 +30,7 @@ yarn add joi joi-password
 
 ```html
 <script src="https://unpkg.com/joi@17.4.2/dist/joi-browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@4.0.0/cdn/joi-password.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@4.1.0/cdn/joi-password.min.js"></script>
 ```
 
 ## Joi extend function
@@ -40,6 +40,7 @@ yarn add joi joi-password
 - minOfSpecialCharacters(min: number): Specifies the minimum number of special string characters.
 - minOfNumeric(min: number): Specifies the minimum number of numeric characters.
 - noWhiteSpaces(): Verifies that a schema has no white spaces, Please do not combine trim() function to make this function works perfectly.
+- onlyLatinCharacters(): Verifies that a schema has only latin characters.
 
 ## Usage
 
@@ -61,6 +62,7 @@ const schema = (input) =>
                         .minOfUppercase(2)
                         .minOfNumeric(2)
                         .noWhiteSpaces()
+                        .onlyLatinCharacters()
                         .required(),
             })
             .validate(input);
@@ -89,6 +91,7 @@ const schema = (input) =>
                         .minOfUppercase(5)
                         .minOfNumeric(6)
                         .noWhiteSpaces()
+                        .onlyLatinCharacters()
                         .messages({
                               'password.minOfUppercase': '{#label} should contain at least {#min} uppercase character',
                               'password.minOfSpecialCharacters':
@@ -96,11 +99,12 @@ const schema = (input) =>
                               'password.minOfLowercase': '{#label} should contain at least {#min} lowercase character',
                               'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
                               'password.noWhiteSpaces': '{#label} should not contain white spaces',
+                              'password.onlyLatinCharacters': '{#label} should contain only latin characters',
                         }),
             })
             .validate(input, { abortEarly: false });
 
-const { error } = schema({ username: 'aA', password: 'aA@0 ' });
+const { error } = schema({ username: 'aA', password: 'aA@0は' });
 
 console.log(error);
 // 'password' should contain at least 3 special character
@@ -108,6 +112,7 @@ console.log(error);
 // 'password' should contain at least 5 uppercase character
 // 'password'  should contain at least 6 numeric character
 // 'password' should not contain white spaces
+// 'password' should contain only latin characters
 ```
 
 ## @hapi/joi supports

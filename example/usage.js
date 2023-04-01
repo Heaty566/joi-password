@@ -13,6 +13,7 @@ const schema = (input) =>
                         .minOfUppercase(2)
                         .minOfNumeric(2)
                         .noWhiteSpaces()
+                        .onlyLatinCharacters()
                         .required(),
             })
             .validate(input);

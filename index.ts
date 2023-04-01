@@ -30,13 +30,13 @@ export interface JoiStringExtend extends joi.StringSchema {
        * @description Verifies a field has no white spaces; please do not use trim() function to make this function works perfectly.
        */
       noWhiteSpaces(): this;
+
+      /**
+       * @description Specifies a field only contains latin characters.
+       */
+      onlyLatinCharacters(): this;
 }
-// /**
-//  * @description Verifies a field does not include the value of other fields.
-//  * @param fields - a array of name of other fields.
-//  * @example 'Password should not include name or username'
-//  */
-// notIncludeWith(fields: string[]): this;
+
 export interface JoiPasswordExtend extends joi.Root {
       string(): JoiStringExtend;
 }
@@ -51,7 +51,7 @@ export function joiPasswordExtendCore(joi: any) {
                   'password.minOfLowercase': '{#label} should contain at least {#min} lowercase character',
                   'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
                   'password.noWhiteSpaces': '{#label} should not contain white spaces',
-                  // 'password.notIncludeWith': '{#label} should not include {#field}',
+                  'password.onlyLatinCharacters': '{#label} should only contain latin characters',
             },
             rules: {
                   minOfUppercase: {
@@ -145,6 +145,14 @@ export function joiPasswordExtendCore(joi: any) {
                   noWhiteSpaces: {
                         validate: (value: string, helpers: joi.CustomHelpers) => {
                               if (new RegExp(` `, 'g').test(value)) return helpers.error('password.noWhiteSpaces');
+
+                              return value;
+                        },
+                  },
+                  onlyLatinCharacters: {
+                        validate: (value: string, helpers: joi.CustomHelpers) => {
+                              if (new RegExp(`[^a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':"\\\\|,.<>\\/? ]`, 'g').test(value))
+                                    return helpers.error('password.onlyLatinCharacters');
 
                               return value;
                         },
