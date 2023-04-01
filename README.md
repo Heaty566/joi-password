@@ -118,6 +118,7 @@ console.log(error);
 ## @hapi/joi supports
 
 https://www.npmjs.com/package/hapi-joi-password
+
 hapi-joi-password package is archived and no longer maintained, please use joi and joi-password instead.
 
 ## License
