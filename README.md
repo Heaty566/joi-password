@@ -104,7 +104,7 @@ const schema = (input) =>
             })
             .validate(input, { abortEarly: false });
 
-const { error } = schema({ username: 'aA', password: 'aA@0は' });
+const { error } = schema({ username: 'aA', password: 'aA@0は ' });
 
 console.log(error);
 // 'password' should contain at least 3 special character
@@ -113,6 +113,7 @@ console.log(error);
 // 'password'  should contain at least 6 numeric character
 // 'password' should not contain white spaces
 // 'password' should contain only latin characters
+
 ```
 
 ## @hapi/joi supports
