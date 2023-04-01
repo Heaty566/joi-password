@@ -120,6 +120,10 @@ console.log(error);
 https://www.npmjs.com/package/hapi-joi-password
 
 hapi-joi-password package is archived and no longer maintained, please use joi and joi-password instead.
+## Other Password Validator
+
+- [yup-password-validator](https://www.npmjs.com/package/yup-password-validator): A yup extension that help to validate a complex password
+- [superstruct-password](https://www.npmjs.com/package/superstruct-password): A superstruct extension that help to validate a complex password
 
 ## License
 
