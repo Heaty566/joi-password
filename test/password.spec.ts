@@ -128,6 +128,72 @@ describe('JoiPasswordComplexity', () => {
                   expect(error?.details[0].type).toBe('password.noWhiteSpaces');
             });
       });
+
+      describe('onlyLatinCharacters', () => {
+            const schema = (value: string) => joiPassword.string().onlyLatinCharacters().validate(value);
+
+            it('Pass', () => {
+                  const { error } = schema('A@0aA@0#');
+                  expect(error).toBeUndefined();
+            });
+
+            it('Failed check japanese characters', () => {
+                  const { error } = schema('こんにちは');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check chinese characters', () => {
+                  const { error } = schema('你好');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check korean characters', () => {
+                  const { error } = schema('안녕하세요');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check russian characters', () => {
+                  const { error } = schema('Привет');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check vietnamese characters', () => {
+                  const { error } = schema('Xin chào');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check thai characters', () => {
+                  const { error } = schema('สวัสดี');
+
+                  expect(error).toBeDefined();
+            });
+            it('Failed check arabic characters', () => {
+                  const { error } = schema('مرحبا');
+
+                  expect(error).toBeDefined();
+            });
+      });
+
+      describe('doesNotInclude', () => {
+            const schema = (value: string) => joiPassword.string().doesNotInclude(['abc', 'def']).validate(value);
+
+            it('Pass', () => {
+                  const { error } = schema('A@0aA@0#');
+                  expect(error).toBeUndefined();
+            });
+
+            it('Failed check abc', () => {
+                  const { error } = schema('abctestdata');
+
+                  expect(error).toBeDefined();
+            });
+
+            it('Failed multiple check abc and def', () => {
+                  const { error } = schema('abctestdata def');
+
+                  expect(error).toBeDefined();
+            });
+      });
 });
 describe('JoiPasswordComplexity core', () => {
       describe('Pass', () => {
@@ -301,6 +367,28 @@ describe('JoiPasswordComplexity core', () => {
             });
             it('Failed check arabic characters', () => {
                   const { error } = schema('مرحبا');
+
+                  expect(error).toBeDefined();
+            });
+      });
+
+      describe('doesNotInclude', () => {
+            const schema = (value: string) =>
+                  joi.extend(joiPasswordExtendCore).string().doesNotInclude(['abc', 'def']).validate(value);
+
+            it('Pass', () => {
+                  const { error } = schema('A@0aA@0#');
+                  expect(error).toBeUndefined();
+            });
+
+            it('Failed check abc', () => {
+                  const { error } = schema('abctestdata');
+
+                  expect(error).toBeDefined();
+            });
+
+            it('Failed multiple check abc and def', () => {
+                  const { error } = schema('abctestdata def');
 
                   expect(error).toBeDefined();
             });

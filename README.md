@@ -30,7 +30,7 @@ yarn add joi joi-password
 
 ```html
 <script src="https://unpkg.com/joi@17.4.2/dist/joi-browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@4.1.0/cdn/joi-password.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/heaty566/joi-password@4.2.0/cdn/joi-password.min.js"></script>
 ```
 
 ## Joi extend function
@@ -41,6 +41,7 @@ yarn add joi joi-password
 - minOfNumeric(min: number): Specifies the minimum number of numeric characters.
 - noWhiteSpaces(): Verifies that a schema has no white spaces, Please do not combine trim() function to make this function works perfectly.
 - onlyLatinCharacters(): Verifies that a schema has only latin characters.
+- doesNotInclude(patterns: string[]): Verifies that a schema does not include any of the given patterns.
 
 ## Usage
 
@@ -63,6 +64,7 @@ const schema = (input) =>
                         .minOfNumeric(2)
                         .noWhiteSpaces()
                         .onlyLatinCharacters()
+                        .doesNotInclude(['password'])
                         .required(),
             })
             .validate(input);
@@ -92,6 +94,7 @@ const schema = (input) =>
                         .minOfNumeric(6)
                         .noWhiteSpaces()
                         .onlyLatinCharacters()
+                        .doesNotInclude(['password'])
                         .messages({
                               'password.minOfUppercase': '{#label} should contain at least {#min} uppercase character',
                               'password.minOfSpecialCharacters':
@@ -100,11 +103,12 @@ const schema = (input) =>
                               'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
                               'password.noWhiteSpaces': '{#label} should not contain white spaces',
                               'password.onlyLatinCharacters': '{#label} should contain only latin characters',
+                              'password.doesNotInclude': '{#label} is too common',
                         }),
             })
             .validate(input, { abortEarly: false });
 
-const { error } = schema({ username: 'aA', password: 'aA@0は ' });
+const { error } = schema({ username: 'aA', password: 'aA@0は password' });
 
 console.log(error);
 // 'password' should contain at least 3 special character
@@ -113,6 +117,7 @@ console.log(error);
 // 'password'  should contain at least 6 numeric character
 // 'password' should not contain white spaces
 // 'password' should contain only latin characters
+// 'password' is too common
 ```
 
 ## @hapi/joi supports
@@ -120,10 +125,6 @@ console.log(error);
 https://www.npmjs.com/package/hapi-joi-password
 
 hapi-joi-password package is archived and no longer maintained, please use joi and joi-password instead.
-## Other Password Validator
-
-- [yup-password-validator](https://www.npmjs.com/package/yup-password-validator): A yup extension that help to validate a complex password
-- [superstruct-password](https://www.npmjs.com/package/superstruct-password): A superstruct extension that help to validate a complex password
 
 ## License
 

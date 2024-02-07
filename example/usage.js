@@ -14,6 +14,7 @@ const schema = (input) =>
                         .minOfNumeric(2)
                         .noWhiteSpaces()
                         .onlyLatinCharacters()
+                        .doesNotInclude(['password'])
                         .required(),
             })
             .validate(input);

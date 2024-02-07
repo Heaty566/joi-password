@@ -14,6 +14,7 @@ const schema = (input) =>
                         .minOfNumeric(6)
                         .noWhiteSpaces()
                         .onlyLatinCharacters()
+                        .doesNotInclude(['password'])
                         .messages({
                               'password.minOfUppercase': '{#label} should contain at least {#min} uppercase character',
                               'password.minOfSpecialCharacters':
@@ -22,6 +23,7 @@ const schema = (input) =>
                               'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
                               'password.noWhiteSpaces': '{#label} should not contain white spaces',
                               'password.onlyLatinCharacters': '{#label} should contain only latin characters',
+                              'password.doesNotInclude': '{#label} is too common',
                         }),
             })
             .validate(input, { abortEarly: false });
@@ -35,3 +37,4 @@ console.log(error);
 // 'password'  should contain at least 6 numeric character
 // 'password' should not contain white spaces
 // 'password' should contain only latin characters
+// 'password' is too common

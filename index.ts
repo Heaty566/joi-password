@@ -35,6 +35,14 @@ export interface JoiStringExtend extends joi.StringSchema {
        * @description Specifies a field only contains latin characters.
        */
       onlyLatinCharacters(): this;
+
+      /**
+       * @description Specifies array of patterns that should not be included in the string.
+       * @param patterns - array of patterns that should not be included in the string.
+       * @example
+       * .doesNotInclude(['abc', 'def'])
+       */
+      doesNotInclude(patterns: string[]): this;
 }
 
 export interface JoiPasswordExtend extends joi.Root {
@@ -52,6 +60,7 @@ export function joiPasswordExtendCore(joi: any) {
                   'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
                   'password.noWhiteSpaces': '{#label} should not contain white spaces',
                   'password.onlyLatinCharacters': '{#label} should only contain latin characters',
+                  'password.doesNotInclude': '{#label} should not contain any of the following: {#patterns}',
             },
             rules: {
                   minOfUppercase: {
@@ -153,6 +162,30 @@ export function joiPasswordExtendCore(joi: any) {
                         validate: (value: string, helpers: joi.CustomHelpers) => {
                               if (new RegExp(`[^a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':"\\\\|,.<>\\/? ]`, 'g').test(value))
                                     return helpers.error('password.onlyLatinCharacters');
+
+                              return value;
+                        },
+                  },
+                  doesNotInclude: {
+                        method(patterns: any) {
+                              return this.$_addRule({
+                                    name: 'doesNotInclude',
+                                    args: { patterns },
+                              });
+                        },
+                        args: [
+                              {
+                                    name: 'patterns',
+                                    assert: (value: any) => Array.isArray(value),
+                                    message: 'must be an array',
+                              },
+                        ],
+                        validate: (value: string, helpers: joi.CustomHelpers, { patterns = [] }: any) => {
+                              const matches = patterns.filter((pattern: string) =>
+                                    new RegExp(pattern, 'g').test(value),
+                              );
+                              if (matches.length > 0)
+                                    return helpers.error('password.doesNotInclude', { patterns: matches.join(', ') });
 
                               return value;
                         },
