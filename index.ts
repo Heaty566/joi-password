@@ -58,8 +58,8 @@ export function joiPasswordExtendCore(joi: any) {
                   'password.minOfSpecialCharacters': '{#label} should contain at least {#min} special character',
                   'password.minOfLowercase': '{#label} should contain at least {#min} lowercase character',
                   'password.minOfNumeric': '{#label} should contain at least {#min} numeric character',
-                  'password.noWhiteSpaces': '{#label} should not contain white spaces',
-                  'password.onlyLatinCharacters': '{#label} should only contain latin characters',
+                  'password.noWhiteSpaces': '{#label} should not contain any white spaces',
+                  'password.onlyLatinCharacters': '{#label} should only contain Latin characters',
                   'password.doesNotInclude': '{#label} should not contain any of the following: {#patterns}',
             },
             rules: {

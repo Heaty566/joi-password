@@ -10,7 +10,7 @@ A Joi extension that help to validate a complex password
 
 ## Requirement
 
-Joi version: 17.x.x
+Joi version: 17.x.x or higher
 
 ## Installation
 
